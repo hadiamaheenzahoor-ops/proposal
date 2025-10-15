@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Proposal • Hadia → Ahmad</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --pink1: #ffd6e0;
+    --pink2: #ff9bb4;
+    --gold1: #f6d365;
+    --gold2: #d6a94f;
+    --bg: linear-gradient(135deg, var(--pink1) 0%, #fff7f9 40%, #fffdfc 100%);
+    --card-bg: rgba(255,255,255,0.94);
+    --muted: #6b6b6b;
+    --text: #2b2b2b;
+    --glass: rgba(255,255,255,0.6);
+    --shadow: 0 18px 50px rgba(10,10,10,0.12);
+  }
+<audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2023/05/20/audio_9e8f1ff5f1.mp3?filename=beautiful-love-story-146200.mp3" autoplay loop></audio>
+
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+  .card{width:100%;max-width:980px;border-radius:16px;background:var(--card-bg);box-shadow:var(--shadow);display:grid;grid-template-columns:430px 1fr;overflow:hidden}
+  /* LEFT HERO */
+  .hero{padding:36px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;flex-direction:column;align-items:center;gap:14px}
+  .avatar{width:200px;height:200px;border-radius:14px;overflow:hidden;border:6px solid rgba(255,255,255,0.5);box-shadow:0 12px 30px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fff0f3,#fff7f8)}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .names{font-family:"Playfair Display",serif;font-size:20px;font-weight:700;color:var(--text);margin-top:6px}
+  .subtitle{font-size:13px;color:var(--muted);text-align:center}
+  .hero-controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .btn{padding:10px 14px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:14px}
+  .btn.primary{background:linear-gradient(90deg,var(--pink2),#ff7b9f);color:white;box-shadow:0 10px 30px rgba(255,120,140,0.12)}
+  .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text)}
+  .tiny{font-size:12px;padding:6px 10px;border-radius:10px}
+  /* RIGHT STAGE */
+  .stage{padding:34px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .progress{height:8px;background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--pink2),var(--gold2));transition:width 420ms cubic-bezier(.2,.9,.35,1)}
+  .slides{flex:1;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center}
+  .slide{max-width:700px;padding:18px;text-align:center;transition:transform 420ms ease,opacity 420ms ease}
+  .title{font-family:"Playfair Display",serif;font-size:30px;font-weight:700;margin-bottom:8px}
+  .text{font-size:16px;color:var(--muted);line-height:1.6}
+  .controls{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .big-btn{padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:700;font-size:15px}
+  .big-btn.primary{background:linear-gradient(90deg,var(--pink2),#ff7b9f);color:white;box-shadow:0 14px 40px rgba(255,120,140,0.12)}
+  .big-btn.secondary{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text)}
+  .final-card{padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,249,250,0.01));box-shadow:0 14px 34px rgba(0,0,0,0.06)}
+  .proposal-large{font-family:"Playfair Display",serif;font-size:36px;font-weight:700;margin-bottom:8px}
+  .final-actions{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+  /* celebratory screen */
+  .celebrate{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;background:linear-gradient(180deg, rgba(255,246,247,0.85), rgba(255,255,255,0.7));backdrop-filter: blur(4px);opacity:0;pointer-events:none;transform:scale(1.02);transition:all 420ms ease;z-index:40
+  }
+  .celebrate.show{opacity:1;pointer-events:auto;transform:scale(1)}
+  .celebrate h2{font-family:"Playfair Display",serif;font-size:30px;margin-bottom:6px}
+  .celebrate p{font-size:16px;color:var(--muted)}
+  .celebrate .cele-btn{margin-top:12px;padding:10px 16px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--gold1),var(--gold2));color:#222;font-weight:700}
+  /* modal */
+  .modal-back{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);z-index:60}
+  .modal{background:white;padding:18px;border-radius:12px;max-width:420px;width:92%;text-align:center}
+  /* confetti canvas */
+  canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+  /* floating hearts */
+  .heart-float{position:absolute;opacity:0;transform:translateY(20px) scale(0.8);animation:rise 4200ms linear forwards}
+  @keyframes rise{
+    0%{opacity:0;transform:translateY(20px) scale(0.8)}
+    10%{opacity:1}
+    100%{opacity:0;transform:translateY(-260px) scale(1.2)}
+  }
+  /* responsive */
+  @media(max-width:880px){.card{grid-template-columns:1fr;max-width:760px}.avatar{width:160px;height:160px}}
+  @media(max-width:520px){.names{font-size:18px}.title{font-size:22px}.proposal-large{font-size:28px}}
+</style>
+</head>
+<body>
+<!-- ================ USER EDIT AREA ================
+   Change these variables (only in this script block)
+   ================================================ -->
+<script>
+  const SENDER_NAME = "Hadia";    // who proposes (female)
+  const TARGET_NAME = "Ahmad";    // target (male)
+  const FINAL_TEXT = "You're mine forever 💖"; // celebration/proposal line
+  // OPTIONAL: direct HTTPS mp3 URL for soft romantic instrumental (CORS allowed)
+  // If empty, no music will be used. You can add later.
+  const MUSIC_SRC = ""; 
+  // OPTIONAL: avatar image URL for hero box (portrait). If empty, placeholder gradient shown.
+  const AVATAR_SRC = "";
+</script>
+
+<div class="wrap">
+  <div class="card" id="card">
+    <!-- LEFT -->
+    <div class="hero" aria-hidden="false">
+      <div class="avatar" id="avatarBox" role="img" aria-label="Hadia">
+        <!-- JS inserts img if AVATAR_SRC set -->
+      </div>
+      <div class="names" id="namesText">Hadia × Ahmad</div>
+      <div class="subtitle">A special moment — created with love</div>
+
+      <div class="hero-controls">
+        <button class="btn primary" id="startBtn">Start</button>
+        <button class="btn ghost" id="previewBtn">Preview</button>
+        <button class="btn ghost tiny" id="themeNote">Pink · Gold</button>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
+        <button class="btn ghost tiny" id="shareBtn">Share</button>
+        <button class="btn ghost tiny" id="downloadBtn">Download</button>
+      </div>
+
+      <div style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;padding:0 6px">
+        Tip: you can edit names, final text, avatar & music in the top script block.
+      </div>
+    </div>
+
+    <!-- RIGHT STAGE -->
+    <div class="stage" id="stage">
+      <div class="progress" aria-hidden="true"><i id="progBar"></i></div>
+
+      <div class="slides" id="slidesContainer">
+        <!-- slides are injected by JS -->
+      </div>
+
+      <div class="controls" id="navControls" aria-hidden="false"></div>
+
+      <!-- celebratory overlay -->
+      <div class="celebrate" id="celebratePanel" role="status" aria-live="polite">
+        <h2 id="celeTitle">Ahmad said YES! 🎉</h2>
+        <p id="celeText">You're mine forever 💖</p>
+        <button class="cele-btn" id="celeOk">Let’s celebrate 🎊</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- confetti canvas -->
+<canvas id="confettiCanvas" class="confetti"></canvas>
+
+<!-- modal -->
+<div class="modal-back" id="modalBack" role="dialog" aria-modal="true" style="display:none">
+  <div class="modal">
+    <h3 id="modalTitle">Info</h3>
+    <p id="modalMsg">Message</p>
+    <div style="margin-top:12px"><button class="btn primary" id="modalOk">OK</button></div>
+  </div>
+</div>
+
+<!-- audio -->
+<audio id="bgMusic" loop crossorigin="anonymous"></audio>
+
+<script>
+(function(){
+  // apply names
+  document.getElementById('namesText').textContent = `${TARGET_NAME} × ${SENDER_NAME}`;
+
+  // avatar
+  const avatarBox = document.getElementById('avatarBox');
+  if(typeof AVATAR_SRC === 'string' && AVATAR_SRC.trim() !== ""){
+    const img = document.createElement('img'); img.src = AVATAR_SRC; img.alt = `${SENDER_NAME}`;
+    avatarBox.appendChild(img);
+  } else {
+    avatarBox.style.background = 'linear-gradient(135deg,#fff0f3,#fff7f8)';
+    // optional decorative golden corner
+    avatarBox.innerHTML = `<svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style="opacity:0.06"><rect width="100" height="100" fill="url(#g)"/><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ffd6e0"/><stop offset="1" stop-color="#f6d365"/></linearGradient></defs></svg>`;
+  }
+
+  // slides content (story)
+  const slides = [
+    { title: `Hey ${TARGET_NAME} 👋`, text: `I made something special — just for you. Press Next and follow my heart.` },
+    { title: `A little about us`, text: `From day one, you brought light, laughter and calm into my life.` },
+    { title: `How I feel`, text: `I think about our future, the little moments, and I know I want them to be with you.` },
+    { title: `The question`, text: FINAL_TEXT },
+    { title: `Final`, text: `If you say YES — let's celebrate together! If you want time — I'll wait respectfully.`, final: true }
+  ];
+
+  const container = document.getElementById('slidesContainer');
+  const navControls = document.getElementById('navControls');
+  const progBar = document.getElementById('progBar');
+  let current = 0;
+
+  function buildSlides(){
+    container.innerHTML = '';
+    slides.forEach((s,i)=>{
+      const slide = document.createElement('div'); slide.className='slide'; slide.dataset.index = i;
+      const t = document.createElement('div'); t.className='title'; t.textContent = s.title;
+      const d = document.createElement('div'); d.className='text'; d.innerHTML = s.text.replace(/\n/g,'<br>');
+      slide.appendChild(t); slide.appendChild(d);
+
+      if(s.final){
+        const finalCard = document.createElement('div'); finalCard.className='final-card';
+        const big = document.createElement('div'); big.className='proposal-large'; big.textContent = FINAL_TEXT;
+        finalCard.appendChild(big);
+
+        const actions = document.createElement('div'); actions.className='final-actions';
+        const yes = document.createElement('button'); yes.className='big-btn primary'; yes.textContent = 'YES 💍';
+        const maybe = document.createElement('button'); maybe.className='big-btn secondary'; maybe.textContent = 'MAYBE 🤔';
+        const no = document.createElement('button'); no.className='big-btn'; no.textContent = 'NO ❌';
+        actions.appendChild(yes); actions.appendChild(maybe); actions.appendChild(no);
+        finalCard.appendChild(actions);
+        slide.appendChild(finalCard);
+
+        // actions
+        yes.addEventListener('click', onYes);
+        maybe.addEventListener('click', ()=> showModal('Okay','Thank you — I appreciate your honesty.'));
+        no.addEventListener('click', ()=> showModal('Respect','Thank you for being honest.'));
+      } else {
+        const c = document.createElement('div'); c.className='controls';
+        const next = document.createElement('button'); next.className='big-btn primary'; next.textContent='Next →';
+        c.appendChild(next);
+        slide.appendChild(c);
+        next.addEventListener('click', nextSlide);
+      }
+
+      container.appendChild(slide);
+    });
+    updateView();
+    renderNav();
+  }
+
+  function renderNav(){
+    navControls.innerHTML = '';
+    const back = document.createElement('button'); back.className='btn ghost'; back.textContent='Back';
+    const skip = document.createElement('button'); skip.className='btn ghost'; skip.textContent='Skip';
+    navControls.appendChild(back); navControls.appendChild(skip);
+    back.addEventListener('click', prevSlide);
+    skip.addEventListener('click', ()=> goTo(slides.length -1));
+  }
+
+  function updateView(){
+    const all = container.querySelectorAll('.slide');
+    all.forEach((el, idx)=>{
+      el.style.opacity = idx === current ? '1' : '0';
+      el.style.transform = idx === current ? 'translateX(0px)' : 'translateX(20px)';
+    });
+    const pct = Math.round((current) / (slides.length - 1) * 100);
+    progBar.style.width = pct + '%';
+  }
+
+  function goTo(i){ if(i<0) i=0; if(i>slides.length-1) i=slides.length-1; current = i; updateView(); }
+  function nextSlide(){ goTo(current + 1); }
+  function prevSlide(){ goTo(current - 1); }
+
+  // show modal
+  const modalBack = document.getElementById('modalBack');
+  document.getElementById('modalOk').addEventListener('click', ()=> modalBack.style.display='none');
+  function showModal(title, msg){
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalMsg').textContent = msg;
+    modalBack.style.display = 'flex';
+  }
+
+  // initial build
+  buildSlides();
+
+  // start / preview
+  document.getElementById('startBtn').addEventListener('click', ()=> goTo(0));
+  document.getElementById('previewBtn').addEventListener('click', ()=> goTo(slides.length -1));
+
+  // share (copy a friendly message)
+  document.getElementById('shareBtn').addEventListener('click', ()=>{
+    const text = `A special surprise for ${TARGET_NAME} — open this when you're ready.`;
+    navigator.clipboard?.writeText(text).then(()=> showModal('Copied','Share text copied to clipboard. Paste it to send.')).catch(()=> showModal('Oops','Copy failed.'));
+  });
+
+  // download HTML (creates a downloadable blob of current page)
+  document.getElementById('downloadBtn').addEventListener('click', ()=>{
+    const html = `<!doctype html>\n<html>\n<!-- Downloaded copy of the proposal page -->\n` + document.documentElement.outerHTML + `\n</html>`;
+    const blob = new Blob([html], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'proposal.html'; document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  // KEYBOARD nav
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'ArrowRight') nextSlide();
+    if(e.key === 'ArrowLeft') prevSlide();
+  });
+
+  /* =========================
+     CONFETTI + HEARTS + MUSIC
+     ========================= */
+  const confCanvas = document.getElementById('confettiCanvas');
+  const cctx = confCanvas.getContext('2d');
+  function resize(){ confCanvas.width = innerWidth; confCanvas.height = innerHeight; }
+  window.addEventListener('resize', resize); resize();
+
+  let confetti = []; let confAnimating = false;
+  function spawnConfetti(){
+    for(let i=0;i<110;i++){
+      confetti.push({
+        x: Math.random()*confCanvas.width,
+        y: -20 - Math.random()*200,
+        vx: (Math.random()-0.5)*6,
+        vy: 1 + Math.random()*4,
+        r: 6 + Math.random()*10,
+        color: ['#ff6b9b','#ffd166','#f6d365','#ff9aa2','#ffd6e0'][Math.floor(Math.random()*5)],
+        rot: Math.random()*360,
+        vr: (Math.random()-0.5)*6
+      });
+    }
+    if(!confAnimating) animateConfetti();
+  }
+  function animateConfetti(){
+    confAnimating = true;
+    cctx.clearRect(0,0,confCanvas.width,confCanvas.height);
+    confetti.forEach((p,idx)=>{
+      p.vy += 0.06;
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      cctx.save(); cctx.translate(p.x,p.y); cctx.rotate(p.rot * Math.PI/180);
+      cctx.fillStyle = p.color; cctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*0.6);
+      cctx.restore();
+    });
+    confetti = confetti.filter(p => p.y < confCanvas.height + 40);
+    if(confetti.length > 0) requestAnimationFrame(animateConfetti); else confAnimating = false;
+  }
+
+  function spawnFloatingHeart(){
+    const el = document.createElement('div');
+    el.className = 'heart-float';
+    el.style.left = (10 + Math.random()*80) + '%';
+    el.style.fontSize = (18 + Math.random()*26) + 'px';
+    el.textContent = '💖';
+    document.body.appendChild(el);
+    // force reflow to restart animation
+    void el.offsetWidth;
+    el.style.animation = 'rise 4200ms linear forwards';
+    setTimeout(()=> el.remove(), 4300);
+  }
+
+  // music
+  const bgMusic = document.getElementById('bgMusic');
+  if(typeof MUSIC_SRC === 'string' && MUSIC_SRC.trim() !== ""){ bgMusic.src = MUSIC_SRC; }
+
+  // Celebrate sequence when YES clicked
+  const celebratePanel = document.getElementById('celebratePanel');
+  const celeTitle = document.getElementById('celeTitle');
+  const celeText = document.getElementById('celeText');
+  celeTitle.textContent = `${TARGET_NAME} said YES! 🎉`;
+  celeText.textContent = FINAL_TEXT;
+
+  function onYes(){
+    // show celebration overlay
+    celebratePanel.classList.add('show');
+
+    // confetti
+    spawnConfetti();
+    // floating hearts repeatedly
+    const heartInterval = setInterval(()=> spawnFloatingHeart(), 300);
+    // play music (user gesture allowed)
+    if(bgMusic.src && bgMusic.src.trim() !== ""){
+      bgMusic.play().catch(()=>{}); // browsers allow play after user click
+    }
+
+    // small pulse animation on hero avatar
+    avatarBox.animate([{transform:'scale(1)'},{transform:'scale(1.04)'},{transform:'scale(1)'}], {duration:800, iterations:1});
+
+    // celebration button behaviour
+    document.getElementById('celeOk').onclick = ()=>{
+      // stop music if playing
+      try{ bgMusic.pause(); bgMusic.currentTime = 0; } catch(e){}
+      // remove overlay and hearts
+      celebratePanel.classList.remove('show');
+      clearInterval(heartInterval);
+    };
+
+    // show a persistent small toast/modal with congratulations
+    showModal('Congratulations', `${SENDER_NAME} & ${TARGET_NAME} — ${FINAL_TEXT}`);
+  }
+
+  // expose onYes for slide buttons
+  window.onYes = onYes;
+
+  // utility: find the final slide yes button link
+  // when slides built, final yes button listens to onYes
+
+  // small accessibility: focus management
+  document.getElementById('startBtn').addEventListener('click', ()=> document.querySelector('.slide .big-btn')?.focus());
+
+  // initial: go to the first slide automatically (soft)
+  goTo(0);
+
+  // make sure final slide YES triggers onYes: add listener (re-attach in case)
+  const addFinalListener = setInterval(()=>{
+    const yesBtn = document.querySelector('.final-actions .big-btn.primary');
+    if(yesBtn){ yesBtn.onclick = ()=> onYes(); clearInterval(addFinalListener); }
+  }, 300);
+
+})();
+
+
+</script>
+</body>
+</html>
